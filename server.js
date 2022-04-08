@@ -3,6 +3,7 @@
 
 // init project
 var express = require('express');
+require('dotenv').config()
 var app = express();
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
@@ -18,6 +19,14 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+
+app.get("/api/:date", function (req, res) {
+  const reqDate = req.params.date;
+  let date = (isNaN(reqDate))?reqDate:reqDate*1;
+  date = new Date(date);
+  
+  res.json({unix: date.getTime(), utc: date.toUTCString()})
+})
 
 // your first API endpoint... 
 app.get("/api/hello", function (req, res) {
